@@ -1,7 +1,7 @@
 const CustomAPIError = require('../errors/custom-error');
 const jwt = require('jsonwebtoken');
 
-const login = (req, res) => {
+const login = async(req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
         throw new CustomAPIError('please provide email and password', 400);
@@ -12,8 +12,13 @@ const login = (req, res) => {
     res.status(201).json({ msg: 'user created', token });
 };
 
-const dashboard = (req, res) => {
-    console.log(req.headers);
+const dashboard = async(req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        throw new CustomAPIError('no token provided', 401);
+    }
+    const token = authHeader.split(' ')[1];
+    console.log(token);
     res.status(200).json({ msg: 'okay' });
 };
 
