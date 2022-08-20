@@ -13,6 +13,7 @@ const login = (req, res) => {
 };
 
 const dashboard = (req, res) => {
+    console.log(req.headers);
     res.status(200).json({ msg: 'okay' });
 };
 
